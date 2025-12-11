@@ -4,11 +4,6 @@ Name | Type | Position
 --- | --- | ---
 Hourly_Irradiation_Plugin | plugin | 0
 Photovoltaic_Plugin | plugin | 0
-Electrolyzer_Plugin | plugin | 0
-Battery_Plugin | plugin | 0
-Stored_Power_Electrolysis_Plugin | plugin | 0
-Reverse_Osmosis_Plugin | plugin | 2
-Power_Management_Plugin | plugin | 2
 Multiple_Modules_Plugin | plugin | 3
 
 # Display Parameters
@@ -70,55 +65,14 @@ Minimum capacity | 10.0% | Based on Chang 2020, minimum capacity for electrolyze
 Conversion efficiency (kg H2/kWh) | 0.0185 | Based on Chang 2020
 Replacement time (h) | 80,000.0 | Based on Chang 2020, operating time after which electrolyzer stacks have to be replaced.
 
-# Electrolysis Using Stored Power
-
-Name | Value | Comment
---- | --- | ---
-Fraction of stored power used for electrolysis | 95% | Additional electrolysis using stored power
-
 # Photovoltaic
 
 Name | Value | Path | Comment
 --- | --- | --- | --- 
-Nominal Power (kW) | 1.5 | Electrolyzer > Nominal Power (kW) > Value | Optimal PV oversize ratio, same as Chang 2020
+Nominal Power (kW) | 8,250 | None | Optimal PV oversize ratio, same as Chang 2020
 CAPEX Reference Power (kW) | 1,000.0
 Power loss per year | 0.5% | None | Based on Chang 2020
 Efficiency | 22% | None | Only used for area calculation.
-
-# Battery
-
-Name | Value | Comment
---- | --- | ---
-Design Capacity (kWh) | 800000 | Full design capacity
-Lowest discharge level | 20% | Lowest level to which battery can be discharged
-Capacity loss per year | 1% | Loss of capacity per year
-Round trip efficiency | 100% | For lithium ion battery
-
-# Reverse Osmosis
-
-Name | Value | Comment
---- | --- | --- | ---
-Power Demand (kWh/m3) | 2.71 | based on Hausmann 2021 and Kim 2008 (this was chosen for a purity of < 10 ppm of disolved salts in the obtained water), kWh per m3 of sea water
-Average daily operating hours | 4 | Assumption that reverse osmosis runs for 4 h/day, relevant for scaling of reverse osmosis plant
-Recovery Rate | 40.0% | Fraction of fresh water obtained from given volume of sea water, based Palmer 2021 and Tewlour 2022
-
-# Power Consumption
-
-Name | Value | Type
---- | --- | ---
-Test Consumer | 0 | on_demand
-
-# Direct Capital Costs - Reverse Osmosis
-
-Name | Value | Path | Comment 
---- | --- | --- | ---
-Reverse Osmosis CAPEX ($ per m3/h capacity) | 6000 | Reverse Osmosis > Capacity (m3/h) > Value | Based on https://samcotech.com/much-reverse-osmosis-nanofiltration-membrane-systems-cost/, Conversion factor of 4.5 from GPM to m3/h
-
-# Direct Capital Costs - Battery
-
-Name | Value | Path
---- | --- | ---
-Battery CAPEX ($/kWh) | 0 | Battery > Design Capacity (kWh) > Value
 
 # Direct Capital Costs - PV
 
@@ -160,12 +114,6 @@ Name | Usage per kg H2 | Usage Unit | Cost | Cost Unit | Price Conversion Factor
 --- | --- | --- | --- | --- | --- | ---
 Process Water | 10 | L/kg H2 | 0.0006 | $/L | 1. | Seawater reverse osmosis cost ca. 0.6 $/m3 (equal to 0.0006 $/L), based on Kibria 2021 and Driess 2021.
 
-# Grid Electricity
-
-Name | Value
---- | ---
-Cost ($/kWh) | 10000.12
-
 # Planned Replacement
 
 Name | Cost ($) | Path | Comment
@@ -198,7 +146,7 @@ Name | Value | Comment
 --- | --- | ---
 Samples | 50,000 | Number of samples in Monte Carlo simulation.
 Target Price Range ($) | 1.5; 1.6
-Input File | data/PV_E/Base/Monte_Carlo_Output.csv
+Input File | ./PV_E/Base/Monte_Carlo_Output.csv
 
 # Parameters - Monte_Carlo_Analysis
 
@@ -310,7 +258,7 @@ top | 0.93
 hist_kwargs | {'show_parameter_table': False}
 image_kwargs | {'x': -0.38}
 
-# Optimization_Analysis - Deactivate
+# Optimization_Analysis
 
 Name | Value
 --- | ---
@@ -322,10 +270,6 @@ Direction | minimize
 
 Parameter | Bounds
 --- | ---
-Photovoltaic > Nominal Power (kW) > Value | 0.1; 10
+Photovoltaic > Nominal Power (kW) > Value | 4,000; 15,000
 Electrolyzer > Nominal Power (kW) > Value | 4,000; 6,000
-Electrolysis Using Stored Power > Fraction of stored power used for electrolysis > Value | 0; 1
-Battery > Design Capacity (kWh) > Value | 0; 100,000
-
-
 

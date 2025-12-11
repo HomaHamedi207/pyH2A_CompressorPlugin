@@ -607,7 +607,10 @@ def process_cell(dictionary, top_key, key, bottom_key, cell = None, print_proces
 		if isinstance(num(cell), numbers.Number):
 			return num(cell)
 		else:
+			if cell != 'None':
+				print(f'Warning: Value at "{top_key} > {key} > {bottom_key}" is not numerical (value is "{cell}"), setting to 1.')
 			return 1.
+
 
 	else:
 		value = 1.
@@ -620,7 +623,8 @@ def process_cell(dictionary, top_key, key, bottom_key, cell = None, print_proces
 
 		return value
 
-def process_input(dictionary, top_key, key, bottom_key, path_key = 'Path', add_processed = True):
+def process_input(dictionary, top_key, key, bottom_key, path_key = 'Path', add_processed = True,
+				  print_processing_warning = True):
 	'''Processing of input at dictionary[top_key][key][bottom_key].
 
 	Parameters
@@ -637,6 +641,8 @@ def process_input(dictionary, top_key, key, bottom_key, path_key = 'Path', add_p
 		Key used for path column. Defaults to 'Path'.
 	add_processed : bool, optional
 		Flag to control if `Processed` key is added
+	print_processing_warning : bool, optional
+		Flag to control if a warning is printed when an unprocessed value is being used.
 
 	Notes
 	-----
@@ -676,10 +682,12 @@ def process_input(dictionary, top_key, key, bottom_key, path_key = 'Path', add_p
 		return entry
 
 	else:
-		value = process_cell(dictionary, top_key, key, bottom_key)
+		value = process_cell(dictionary, top_key, key, bottom_key, 
+					   		print_processing_warning = print_processing_warning)
 
 		try:
-			target_value = process_cell(dictionary, top_key, key, path_key)
+			target_value = process_cell(dictionary, top_key, key, path_key,
+							   print_processing_warning = print_processing_warning)
 			value *= target_value
 		except KeyError:
 			pass
@@ -694,7 +702,8 @@ def process_input(dictionary, top_key, key, bottom_key, path_key = 'Path', add_p
 
 		return value
 
-def process_table(dictionary, top_key, bottom_key, path_key = 'Path'):
+def process_table(dictionary, top_key, bottom_key, path_key = 'Path', 
+				  print_processing_warning = True):
 	'''Looping through all keys in dictionary[top_key] and applying process_input to
 	dictionary[top_key][key][bottom_key].
 
@@ -708,6 +717,8 @@ def process_table(dictionary, top_key, bottom_key, path_key = 'Path'):
 		Bottom key(s).
 	path_key : str or ndarray, optional
 		Key(s) used for path column(s). Defaults to 'Path'.
+	print_processing_warning : bool, optional
+		Flag to control if a warning is printed when an unprocessed value is being used.
 	
 	Notes
 	-----
@@ -717,15 +728,18 @@ def process_table(dictionary, top_key, bottom_key, path_key = 'Path'):
 
 	for key in dictionary[top_key]:
 		if isinstance(bottom_key, str):
-			value = process_input(dictionary, top_key, key, bottom_key, path_key = path_key)
+			value = process_input(dictionary, top_key, key, bottom_key, path_key = path_key,
+						 		print_processing_warning = print_processing_warning)
 
 		else:
 			for single_key, path in zip(bottom_key[:-1], path_key[:-1]):
 				value = process_input(dictionary, top_key, key, single_key, 
-									  path_key = path, add_processed = False)
+									  path_key = path, add_processed = False,
+									print_processing_warning = print_processing_warning)
 
 			process_input(dictionary, top_key, key, bottom_key[-1], 
-						  path_key = path_key[-1], add_processed = True)
+						  path_key = path_key[-1], add_processed = True,
+						  print_processing_warning = print_processing_warning)
 
 def sum_table(dictionary, top_key, bottom_key, path_key = 'Path'):
 	'''For the provided `dictionary`, all entries in dictionary[top_key] are processed 
@@ -815,3 +829,23 @@ def sum_all_tables(dictionary, table_group, bottom_key, insert_total = False,
 		return total, contributions
 	else:
 		return total
+	
+def hourly_to_daily_power(array):
+	'''Convert array of hourly power values to array of daily power values.'''
+		
+	if len(array) % 24 != 0:
+		raise ValueError("Data length is not a multiple of 24")
+	
+	daily_array = array.reshape(-1, 24)
+	daily_array = daily_array.sum(axis=1)	
+
+	return daily_array
+	
+def daily_to_yearly_power(dictionary):
+	'''Convert dictionary with daily power values to array with yearly power values.
+	'''
+
+	stacked_array = np.vstack(list(dictionary.values()))
+	yearly_power = stacked_array.sum(axis = 1)
+
+	return yearly_power
