@@ -128,10 +128,14 @@ def test():
 	print(Energy(141 * 1e6, J).kWh)
 	print(Energy(285.83 * (1000./2.) * con.Avogadro, kJmol).J)
 
+def lca():
+	result = pyH2A('data/LCA/PV_E_Base.md', '.')
+	print(result)
+
 def main():
 	#dcf_test()
 	#optimization_test()
-	pv_e_base()
+	#pv_e_base()
 	#pv_e_limit()
 	#pv_e_distance_time()
 	#pec_base()
@@ -141,6 +145,7 @@ def main():
 	#photocatalytic_limit()
 	#technology_comparison()
 	#test()
+	lca()
 
 
 
