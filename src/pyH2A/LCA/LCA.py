@@ -210,53 +210,64 @@ class LCA:
         for impact_name, data in self.lca_results.items():
                 print(f"{impact_name} , {data['value']:.5f} , {data['unit']}")            
 
-def process_LCA_table(scaling_vector : np.ndarray, input_table : dict, tech_index_dict : dict):
+def process_LCA_table(scaling_vector: np.ndarray, input_table: dict, tech_index_dict: dict):
     """
-        Processes a pyH2A LCA input table and populates the scaling vector.
+    Processes an LCA input table and populates the scaling vector.
 
-        The function assigns values to the scaling vector based on
-        process UUIDs and performs unit checks and conversions to
-        ensure consistency with the openLCA model.
+    Each row in the input_table must have 'UUID', 'Value', and 'Unit'.
+    Units are validated and converted to the reference flow units from the LCA export.
 
-        Parameters
-        ----------
-        scaling_vector : numpy.ndarray
+    Parameters
+    ----------
+    scaling_vector : numpy.ndarray
             Vector used to scale LCA processes.
         input_table : dict
             pyH2A-formatted input table containing process UUIDs,
             values, and units.
         tech_index_dict : dict
-            Dictionary mapping process UUIDs to TechEntry objects.
+            Dictionary mapping process UUIDs to TechEntry objects
 
-        Notes
-        -----
-        Unit conversion is applied where supported. Unknown units
-        are assumed to be consistent with the openLCA export.
+    Raises
+    ------
+    KeyError
+        If required keys such as 'UUID', 'Value', or 'Unit' are missing.
+    ValueError
+        If the unit in the input table is unsupported or incompatible.
     """
 
-    # conversion factors to consistent units
+    # Allowed conversions to reference units
     unit_conversion = {
-        'ton': 1000,   # tons -> kg
-        'kg': 1,
-        'kWh': 3.6,    # kWh -> MJ
-        'MJ': 1
+        ('ton', 'kg'): 1000,
+        ('kg', 'kg'): 1,
+        ('kWh', 'MJ'): 3.6,
+        ('MJ', 'MJ'): 1
     }
 
     for key in input_table:
-        uuid = input_table[key]['UUID']
-        value = input_table[key]['Value']
-        unit = input_table[key].get('Unit', None)  # Expect 'Unit' field in table
+        entry = input_table[key]
 
-        # Convert to consistent unit if unit is known
-        if unit in unit_conversion:
-            value_converted = value * unit_conversion[unit]
-        else:
-            value_converted = value  # Assume already consistent if unit unknown
+        # Required keys (raises KeyError if missing)
+        uuid = entry['UUID']
+        value = entry['Value']
+        unit = entry['Unit']
 
+        # Reference unit from LCA export
+        expected_unit = tech_index_dict[uuid].flow_unit
 
+        # Determine conversion factor
+        conversion_key = (unit, expected_unit)
+        if conversion_key not in unit_conversion:
+            raise ValueError(
+                f"Unsupported or incompatible unit '{unit}' for process "
+                f"'{tech_index_dict[uuid].process_name}' (expected '{expected_unit}')"
+            )
+
+        value_converted = value * unit_conversion[conversion_key]
+
+        # Populate scaling vector
         tech_index = tech_index_dict[uuid].index
         scaling_vector[tech_index] = value_converted
-        
+
 
 def lcia_example():
     """
@@ -269,7 +280,7 @@ def lcia_example():
         purposes and prints impact assessment results to stdout.
     """
 
-    folder = ExportFolder('pyH2A/LCA/LCA_Test_Data')
+    folder = ExportFolder('data/LCA/LCA_Test_Data')
 
     if not folder.has_impacts():
         print('error: no impacts in your export')
