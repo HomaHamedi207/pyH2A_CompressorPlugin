@@ -220,12 +220,12 @@ def process_LCA_table(scaling_vector: np.ndarray, input_table: dict, tech_index_
     Parameters
     ----------
     scaling_vector : numpy.ndarray
-            Vector used to scale LCA processes.
-        input_table : dict
-            pyH2A-formatted input table containing process UUIDs,
-            values, and units.
-        tech_index_dict : dict
-            Dictionary mapping process UUIDs to TechEntry objects
+        Vector used to scale LCA processes.
+    input_table : dict
+        pyH2A-formatted input table containing process UUIDs,
+        values, and units.
+    tech_index_dict : dict
+        Dictionary mapping process UUIDs to TechEntry objects
 
     Raises
     ------
@@ -249,7 +249,10 @@ def process_LCA_table(scaling_vector: np.ndarray, input_table: dict, tech_index_
         # Required keys (raises KeyError if missing)
         uuid = entry['UUID']
         value = entry['Value']
-        unit = entry['Unit']
+        try:
+            unit = entry['Unit']
+        except KeyError:
+            raise KeyError(f"'Unit' missing for process {key} in input table")
 
         # Reference unit from LCA export
         expected_unit = tech_index_dict[uuid].flow_unit
