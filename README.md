@@ -25,6 +25,13 @@ pyH2A can be installed using `pip`:
 pip install pyH2A
 ```
 
+pyH2A can also be installed using `uv`:
+
+```bash
+uv add pyH2A
+uv pip install .
+```
+
 # Documentation
 
 Documentation for pyH2A is available at: https://pyh2a.readthedocs.io
@@ -55,39 +62,39 @@ Tools such as [StackEdit](https://stackedit.io/app#) can be used to edit markdow
 
 # Example output
 
-* Cost breakdown
+- Cost breakdown
 
 ![cost breakdown plot](https://github.com/jschneidewind/pyH2A/blob/master/Example_Output/Cost_Breakdown_Plot.png?raw=True "Cost breakdown plot")
 
-* Sensitivity analysis
+- Sensitivity analysis
 
 ![sensitivity plot](https://github.com/jschneidewind/pyH2A/blob/master/Example_Output/Sensitivity_Box_Plot.png?raw=true "Sensitivity plot")
 
-* Waterfall analysis
+- Waterfall analysis
 
 ![waterfall plot](https://github.com/jschneidewind/pyH2A/blob/master/Example_Output/Waterfall_Chart.png?raw=true "Waterfall plot")
 
-* Monte Carlo analysis, also allowing for comparison of different production pathways
+- Monte Carlo analysis, also allowing for comparison of different production pathways
 
 ![colored scatter](https://github.com/jschneidewind/pyH2A/blob/master/Example_Output/Monte_Carlo_Colored_Scatter.png?raw=true "Colored Scatter")
 
 ![comparative distance cost relationship and histograms](https://github.com/jschneidewind/pyH2A/blob/master/Example_Output/Monte_Carlo_Combined_Plot.png?raw=true "Comparative distance cost relationship and histograms")
 
-# Publication data 
+# Publication data
 
 Data for the accompanying publication can be found in the `data` directory.
 
 # To do
 
-* Importing plugins and analysis modules from arbitrary location
+- Importing plugins and analysis modules from arbitrary location
 
-* Enabling use of Default.md file in arbitrary location
+- Enabling use of Default.md file in arbitrary location
 
-* Block diagram illustrating flow of program
+- Block diagram illustrating flow of program
 
-* Creation of graph showing how inputs are processed by series of plugins
+- Creation of graph showing how inputs are processed by series of plugins
 
-* Lifecycle analysis & net energy analysis?
+- Lifecycle analysis & net energy analysis?
 
 # License
 
