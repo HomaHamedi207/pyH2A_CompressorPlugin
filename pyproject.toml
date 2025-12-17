@@ -1,7 +1,7 @@
 [project]
 name = "pyH2A"
 description = "pyH2A is an extensible Python framework for the analysis of hydrogen production cost. Its discounted cash flow module is based on the H2A Hydrogen Analysis model developed by the U.S. Department of Energy"
-version = "1"
+version = "v0.0a8"
 readme = "README.md"
 requires-python = ">= 3.9"
 dependencies = [
