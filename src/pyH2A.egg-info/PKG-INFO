@@ -1,23 +1,23 @@
-Metadata-Version: 2.2
+Metadata-Version: 2.4
 Name: pyH2A
-Version: 0.0a8
-Summary: A framework for the analysis of hydrogen production cost
+Version: 1
+Summary: pyH2A is an extensible Python framework for the analysis of hydrogen production cost. Its discounted cash flow module is based on the H2A Hydrogen Analysis model developed by the U.S. Department of Energy
 Home-page: https://github.com/jschneidewind/pyH2A
 Author: Jacob Schneidewind
 Author-email: pyH2A.pypi@gmail.com
-Project-URL: Bug Tracker, https://github.com/jschneidewind/pyH2A/issues
-Classifier: Programming Language :: Python :: 3
-Classifier: License :: OSI Approved :: MIT License
-Classifier: Operating System :: OS Independent
-Requires-Python: >=3.7
+Requires-Python: >=3.9
 Description-Content-Type: text/markdown
 License-File: LICENSE
 License-File: LICENSE-CC-BY.txt
-Requires-Dist: click
-Requires-Dist: numpy
-Requires-Dist: scipy
-Requires-Dist: pandas
-Requires-Dist: matplotlib
+Requires-Dist: autodocsumm>=0.2.14
+Requires-Dist: click>=8.1.8
+Requires-Dist: furo>=2025.9.25
+Requires-Dist: matplotlib>=3.9.4
+Requires-Dist: numpy>=2.0.2
+Requires-Dist: numpydoc>=1.9.0
+Requires-Dist: pandas>=2.3.3
+Requires-Dist: scipy>=1.13.1
+Dynamic: license-file
 
 <img align="right" src="https://github.com/jschneidewind/pyH2A/blob/master/src/pyH2A/Other/pyH2A.svg?raw=true"/>
 
