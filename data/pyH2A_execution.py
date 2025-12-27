@@ -26,7 +26,7 @@ def dcf_test():
 
 def pv_e_base():
 	
-	result = pyH2A('data/PV_E/Base/PV_E_Base.md', './PV_E/Base')
+	result = pyH2A('data/PV_E/Base/PV_E_Base.md', 'data/PV_E/Base')
 
 	pprint.pprint(result.base_case.inp['Direct Capital Costs - Reverse Osmosis'])
 
@@ -44,22 +44,22 @@ def pv_e_base():
 	#pprint.pprint(result.base_case.inp['Planned Replacement'])
 
 def pv_e_limit():
-	result = pyH2A('./PV_E/Limit/PV_E_Limit.md', './PV_E/Limit')
+	result = pyH2A('data/PV_E/Limit/PV_E_Limit.md', 'data/PV_E/Limit')
 
 def pv_e_distance_time():
-	result = pyH2A('./PV_E/Historical_Data/PV_E_Distance_Time.md', './PV_E/Historical_Data')
+	result = pyH2A('data/PV_E/Historical_Data/PV_E_Distance_Time.md', 'data/PV_E/Historical_Data')
 
 	print(result.meta_modules['Development_Distance_Time_Analysis']['Module'].p_linear)
 
 def pec_base():
 
-	result = pyH2A('./PEC/Base/PEC_Base.md', './PEC/Base')
+	result = pyH2A('data/PEC/Base/PEC_Base.md', 'data/PEC/Base')
 	#pprint.pprint(result.base_case.inp['Non-Depreciable Capital Costs'])
 	pprint.pprint(result.meta_modules['Monte_Carlo_Analysis']['Module'].shortest_target_distance)
 
 def pec_limit():
 	
-	result = pyH2A('./PEC/Limit/PEC_Limit.md', './PEC/Limit')
+	result = pyH2A('data/PEC/Limit/PEC_Limit.md', 'data/PEC/Limit')
 
 	pprint.pprint(result.base_case.plugs['PEC_Plugin'].mol_H2_per_m2_per_day*3/24.)
 	pprint.pprint(result.base_case.plugs['PEC_Plugin'].mol_H2_per_m2_per_day)
@@ -72,14 +72,14 @@ def pec_limit():
 
 def pec_limit_no_concentration():
 
-	result = pyH2A('./PEC/No_Conc/PEC_Limit_No_Concentration.md', './PEC/No_Conc')
+	result = pyH2A('data/PEC/No_Conc/PEC_Limit_No_Concentration.md', 'data/PEC/No_Conc')
 
 	#pprint.pprint(result.base_case.inp['Non-Depreciable Capital Costs'])
 
 def photocatalytic_base():
 	#225.15652501997127 $/kg
 	
-	result = pyH2A('./Photocatalytic/Base/Photocatalytic_Base.md', './Photocatalytic/Base')
+	result = pyH2A('data/Photocatalytic/Base/Photocatalytic_Base.md', 'data/Photocatalytic/Base')
 	
 
 	pprint.pprint(result.meta_modules['Monte_Carlo_Analysis']['Module'].shortest_target_distance)
@@ -93,7 +93,7 @@ def photocatalytic_base():
 	# import matplotlib.pyplot as plt
 	# import numpy as np
 	# data_points = np.arange(100, 10000, 100)
-	# results = discounted_cash_flow_function('./Photocatalytic/Base/Photocatalytic_Base.md', 
+	# results = discounted_cash_flow_function('data/Photocatalytic/Base/Photocatalytic_Base.md', 
 	# 										data_points,
 	# 										np.array(['Reactor Baggies', 'Length (m)', 'Value']))
 	# plt.plot(data_points, results, 'o-')
@@ -101,13 +101,13 @@ def photocatalytic_base():
 
 def photocatalytic_limit():
 
-	result = pyH2A('./Photocatalytic/Limit/Photocatalytic_Limit.md', './Photocatalytic/Limit')
+	result = pyH2A('data/Photocatalytic/Limit/Photocatalytic_Limit.md', 'data/Photocatalytic/Limit')
 	pprint.pprint(result.base_case.plugs['Photocatalytic_Plugin'].catalyst_properties)
 
 def technology_comparison():
-	pec = pyH2A('./PEC/Base/PEC_Base.md', './PEC/Base')
-	pc =  pyH2A('./Photocatalytic/Base/Photocatalytic_Base.md', './Photocatalytic/Base')
-	pv_e =  pyH2A('./PV_E/Base/PV_E_Base.md', './PV_E/Base')
+	pec = pyH2A('data/PEC/Base/PEC_Base.md', 'data/PEC/Base')
+	pc =  pyH2A('data/Photocatalytic/Base/Photocatalytic_Base.md', 'data/Photocatalytic/Base')
+	pv_e =  pyH2A('data/PV_E/Base/PV_E_Base.md', 'data/PV_E/Base')
 
 	pec_distances = pec.meta_modules['Monte_Carlo_Analysis']['Module'].distances
 	pc_distances = pc.meta_modules['Monte_Carlo_Analysis']['Module'].distances
@@ -128,10 +128,14 @@ def test():
 	print(Energy(141 * 1e6, J).kWh)
 	print(Energy(285.83 * (1000./2.) * con.Avogadro, kJmol).J)
 
+def lca():
+	result = pyH2A('data/LCA/PV_E_Base.md', '.')
+	print(result)
+
 def main():
 	#dcf_test()
 	#optimization_test()
-	pv_e_base()
+	#pv_e_base()
 	#pv_e_limit()
 	#pv_e_distance_time()
 	#pec_base()
@@ -141,9 +145,7 @@ def main():
 	#photocatalytic_limit()
 	#technology_comparison()
 	#test()
-
-
-
+	lca()
 
 	
 if __name__ == '__main__':
