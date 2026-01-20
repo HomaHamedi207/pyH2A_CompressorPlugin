@@ -1,5 +1,5 @@
 import pint
-from Unit_dimension import UnitDimensionHandler
+from .Unit_dimension import UnitDimensionHandler
 
 
 class UnitConversionHandler:
@@ -13,7 +13,7 @@ class UnitConversionHandler:
         "luminosity": "cd",
         "mass": "g",
         "substance": "mol",
-        "temperature": "K",
+        "temperature": "degK",
         "volume": "l"
     }
     
@@ -24,16 +24,18 @@ class UnitConversionHandler:
     
     def convert(self, value, unit):
         dimension = self.dimension_handler.get_dimension(unit)
-        target_unit = self.DIMENSION_TO_UNIT_MAPPING.get(dimension) 
+        target_unit = self.DIMENSION_TO_UNIT_MAPPING.get(dimension)
+
         if target_unit is None:
             raise ValueError(f"No target unit defined for dimension '{dimension}'.")
+        
+        # Special handling for temperature conversions
+        if target_unit == self.DIMENSION_TO_UNIT_MAPPING["temperature"]:
+            quantity = self.ureg.Quantity(value, self.ureg[unit])
+            converted_quantity = quantity.to(target_unit)
+            return converted_quantity
+
         quantity = value * self.ureg.Unit(unit)
         converted_quantity = quantity.to(target_unit)
         return converted_quantity
 
-
-# if __name__ == "__main__":
-#     handler = UnitConversionHandler()
-#     print(handler.convert(1, 'kWh'))
-#     print(handler.convert(100.0, 'cm'))
-#     print(handler.convert(60.0, 'min'))

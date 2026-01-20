@@ -35,16 +35,3 @@ class UnitDimensionHandler:
 
         return dimension
     
-
-# if __name__ == "__main__":
-#     handler = UnitDimensionHandler()
-#     print(handler.get_dimension('PJ'))
-#     print(handler.get_dimension('fm'))
-#     print(handler.get_dimension('s'))
-#     print(handler.get_dimension('A'))
-#     print(handler.get_dimension('cd'))
-#     print(handler.get_dimension('g'))
-#     print(handler.get_dimension('mol'))
-#     print(handler.get_dimension('K'))
-#     print(handler.get_dimension('rad'))
-#     print(handler.get_dimension('l'))
