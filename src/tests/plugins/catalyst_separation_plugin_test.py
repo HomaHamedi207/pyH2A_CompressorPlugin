@@ -20,20 +20,48 @@ class DummyDCF:
         }
 
 
+
 @pytest.mark.parametrize(
-    "water_volume_liters, filtration_cost_per_m3, catalyst_lifetime_years, expected_result",
+    "case",
     [
-        (0.0, 50.0, 5.0, 0),  # zero water
-        (10000.0, 0.0, 5.0, 0),  # zero filtration cost
-        (0.0, 0.0, 5.0, 0),  # both zero
-        (1000.0, 50.0, 2.0, 25.0),  # real cases
+        {
+            "input": {
+                "water_volume_liters": 0.0,
+                "filtration_cost_per_m3": 50.0,
+                "catalyst_lifetime_years": 5.0,
+            },
+            "expected": 0,
+        },
+        {
+            "input": {
+                "water_volume_liters": 0.0,
+                "filtration_cost_per_m3": 0.0,
+                "catalyst_lifetime_years": 5.0,
+            },
+            "expected": 0,
+        },
+        {
+            "input": {
+                "water_volume_liters": 10000.0,
+                "filtration_cost_per_m3": 0.0,
+                "catalyst_lifetime_years": 5.0,
+            },
+            "expected": 0,
+        },
+        {
+            "input": {
+                "water_volume_liters": 1000.0,
+                "filtration_cost_per_m3": 50.0,
+                "catalyst_lifetime_years": 2.0,
+            },
+            "expected": 25.0,
+        },
     ],
 )
 
-
-def test_catalyst_separation_plugin(water_volume_liters, filtration_cost_per_m3, catalyst_lifetime_years, expected_result):
+def test_catalyst_separation_plugin(case):
     """Check plugin handles edge and real cases without errors and returns correct annualized costs."""
-    dcf = DummyDCF(water_volume_liters, filtration_cost_per_m3, catalyst_lifetime_years)
+    dcf = DummyDCF(**case["input"])
     plugin = Catalyst_Separation_Plugin(dcf, print_info=False)
-    
-    assert plugin.yearly_cost == expected_result
+
+    assert plugin.yearly_cost == case["expected"]
