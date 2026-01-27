@@ -72,6 +72,9 @@ src/pyH2A/Example/Future_PEC_Type_1_Monte_Carlo.csv
 src/pyH2A/Example/Future_PEC_Type_4_Monte_Carlo.csv
 src/pyH2A/Example/PV_E_Monte_Carlo.csv
 src/pyH2A/Example/__init__.py
+src/pyH2A/LCA/LCA.py
+src/pyH2A/LCA/LCA_lib.py
+src/pyH2A/LCA/__init__.py
 src/pyH2A/Lookup_Tables/GDP_Implicit_Deflator_Price_Index.csv
 src/pyH2A/Lookup_Tables/Labor_Index.csv
 src/pyH2A/Lookup_Tables/MACRS.csv

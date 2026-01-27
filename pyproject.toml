@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "pyH2A"
 description = "pyH2A is an extensible Python framework for the analysis of hydrogen production cost. Its discounted cash flow module is based on the H2A Hydrogen Analysis model developed by the U.S. Department of Energy"
@@ -12,6 +16,7 @@ dependencies = [
     "numpy>=2.0.2",
     "numpydoc>=1.9.0",
     "pandas>=2.3.3",
-    "scipy>=1.13.1",
+    "pint>=0.24.4",
     "pytest>=8.4.2",
+    "scipy>=1.13.1",
 ]
