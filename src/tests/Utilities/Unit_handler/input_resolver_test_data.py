@@ -26,11 +26,17 @@ class DummyDCF:
                 }
             },        
             
-            'Water Volume': {
+            'Water Supply': {
                 'Volume': {
                     'Value': 50, 
-                    'Unit': 'liters'
-                }
+                    'Unit': 'liters', 
+                    'Type': 'flexible'
+                }, 
+                'Purity': {
+                    'Value': 99, 
+                    'Unit': 'percent', 
+                    'Type': 'contaminants'
+                }                
             },  
             
             'Number of units': {
@@ -115,208 +121,192 @@ class DummyDCF:
                                 
         }
 
+
 input_dict = {
 
-    'utilities': {  'top_level': 'Utilities',
-                    'mid_level': {
-                        '<...>':{
-                            'bottom_level': {
-                                'Usage_Value': {
-                                    'type': {float, int},
-                                    'bounds': (0, None)
-                                },
-                                'Usage_Unit': {
-                                    'dimension': 'energy / mass'
-                                },
-                                'Cost_Value': {
-                                    'type': {float, int},
-                                    'bounds': (0, None)
-                                },
-                                'Cost_Unit': {
-                                    'dimension': 'currency / energy'
-                                },
-                                'Type': {
-                                    'type': str,
-                                    'options': {
-                                        'electricity', 'natural_gas', 'water'
-                                        },
-                                }
-                            },
-                            'optional': True,
-                            'description': 'The utility usage and cost details.'
-                        },
+    'Utilities':{
+        '<...>':{
+            'Usage_Value': {
+                    'type': {float, int},
+                    'bounds': (0, None)
+            },
+            'Usage_Unit': {
+                    'dimension': 'energy / mass'
+            },
+            'Cost_Value': {
+                    'type': {float, int},
+                    'bounds': (0, None)
+            },
+            'Cost_Unit': {
+                    'dimension': 'currency / energy'
+            },
+            'Type': {
+                    'type': str,
+                    'options': {
+                        'electricity', 'natural_gas', 'water'
                     },
+            },
+            'optional': True,
+            'description': 'The utility usage and cost details.'
+        },
     },
 
-    'water_volume': {   'top_level': 'Water Volume',
-                        'mid_level' : {
-                            'Volume':{
-                                'bottom_level': {                     
-                                    'Value': {
-                                        'type': {float,},
-                                        'bounds': (0, None),
-                                    },
-                                    'Unit': {
-                                        'dimension': 'volume'
-                                    },                    
-                                 },
-                                'optional': False,
-                                'description': 'Total water volume in liters.'
-                            },                                                        
-                        },
+    'Water Supply':{
+        'Volume':{
+            'Value': {
+                    'type': {float,},
+                    'bounds': (0, None),
+            },
+            'Unit': {
+                'dimension': 'volume'
+            },    
+            'Type': {
+                'type': str,
+                'options': {'on_demand', 'flexible'}
+            },            
+            'optional': False,
+            'description': 'Total water volume in liters.'
+        }, 
+        'Purity': {
+            'Value': {
+                'type': {float, int},
+                'bounds': (0, 1)
+            },
+            'Unit': {
+                'dimension': 'dimensionless'
+            },
+            'Type': {
+                'type': str,
+                'options': {'total_dissolved_solids', 'contaminants'}
+            },
+            'optional': False,
+            'description': 'The purity of water in the system.'
+        }
+    },
+
+    'Number of units':{
+        'Bag number':{
+            'Value': {
+                'type': {int,},
+                'bounds': (0, None),
+            },
+            'Unit': {
+                'dimension': 'dimensionless',
+            },                    
+            'optional': False,
+            'description': 'Number of bags in the system.'
+        },                                                        
+    },
+
+    'Catalyst':{
+        'Lifetime':{
+            'Value': {
+                'type': {float,},
+                'bounds': (0, None),
+            },
+            'Unit': {
+                'dimension': 'time'
+            },                    
+            'optional': False,
+            'description': 'Catalyst lifetime in years.'
+        },                                                        
+    },
+
+    'Catalyst Separation':{
+        'Filtration cost':{
+            'Value': {
+                'type': {float,},
+                'bounds': (0, None),
+            },
+            'Unit': {
+                'dimension': 'currency / volume'
+            },                    
+        'optional': False,
+        'description': 'Specific Catalyst separation cost.'
+        },                                                        
     },
     
-    'Bag_number': {'top_level': 'Number of units',
-                         'mid_level' : {
-                            'Bag number':{
-                                'bottom_level': {                    
-                                    'Value': {
-                                        'type': {int,},
-                                        'bounds': (0, None),
-                                    },
-                                    'Unit': {
-                                        'dimension': 'dimensionless',
-                                    },                    
-                                },
-                                'optional': False,
-                                'description': 'Number of bags in the system.'
-                            },                                                        
-                        },
+    'Grid Electricity': {
+        'Cost':{
+            'Value': {
+                'type': {float, np.ndarray},
+                'bounds': (0, None),
+            },
+            'Unit': {
+                'dimension': 'currency / energy'
+            },                    
+        'optional': True,
+        'description': 'Stored electric energy per period.'
+        },                                                        
     },
 
-    'Catalyst_lifetime': {'top_level': 'Catalyst',
-                         'mid_level' : {
-                            'Lifetime':{
-                                'bottom_level': {                    
-                                    'Value': {
-                                        'type': {float,},
-                                        'bounds': (0, None),
-                                    },
-                                    'Unit': {
-                                        'dimension': 'time'
-                                    },                    
-                                 },
-                                'optional': False,
-                                'description': 'Catalyst lifetime in years.'
-                            },                                                        
-                        },
+    'Power Generation':{
+        'Stored Power':{
+            'Value': {
+                'type': {dict,},
+                'bounds': (0, None),
+            },
+            'Unit': {
+                'dimension': 'energy'
+            },                    
+        'optional': True,
+        'description': 'Stored electric energy per period.'
+        },
+        'Available Power':{              
+            'Value': {
+                'type': {dict,}, 
+                'bounds': (0, None),
+            },
+            'Unit': {
+                'dimension': 'energy'
+            },                    
+        'optional': False,
+        'description': 'Available electric energy per period.'
+        },                                                         
     },
 
-    'Catalyst_Separation': {'top_level': 'Catalyst Separation',
-                            'mid_level' : {
-                                'Filtration cost':{
-                                    'bottom_level': {                    
-                                        'Value': {
-                                            'type': {float,},
-                                            'bounds': (0, None),
-                                        },
-                                        'Unit': {
-                                            'dimension': 'currency / volume'
-                                        },                    
-                                     },
-                                    'optional': False,
-                                    'description': 'Specific Catalyst separation cost.'
-                                },                                                        
-                            },
+    'Power Consumption':{
+        '<...>':{   
+            # Assuming all the keys that are not known in advance must follow the same schema
+            'Value': {
+                'type': {np.ndarray,},
+                'bounds': (0, None),
+                'length': 3 # expected length of the array (in practice, would be more like 365 for a value per day of the year)
+            },
+            'Unit': {
+                'dimension': 'energy'
+            },   
+            'Type': {
+                'type': {str,},
+                'options': {
+                    'on demand', 'flexible'
+                },                                    
+            },
+        'optional': True,
+        'description': 'Power consumption per consumer.'
+        },                                                        
     },
     
-    'grid_electricity_cost': {  'top_level': 'Grid Electricity',
-                                'mid_level' : {
-                                    'Cost':{
-                                        'bottom_level': {                    
-                                            'Value': {
-                                                'type': {float, np.ndarray},
-                                                'bounds': (0, None),
-                                            },
-                                            'Unit': {
-                                                'dimension': 'currency / energy'
-                                            },                    
-                                        },
-                                        'optional': True,
-                                        'description': 'Stored electric energy per period.'
-                                    },                                                        
-                                },
-    },
+    '<...> Other Variable Operating Cost <...>':{ # table group
+        '<...>':{ 
+            'Value': {
+                'type': {float, np.ndarray},
+                'bounds': (0, None),
+                # length might not be known in advance: check its consistency only if the 'length' key is found in the input
+            },
+            'Unit': {
+                'dimension': 'currency'
+            },   
+        'optional': True,
+        'description': 'All other variable operating costs.'
+        },                                                        
+    },     
 
-    'Power_Generation': {'top_level': 'Power Generation',
-                         'mid_level' : {
-                            'Stored Power':{
-                                'bottom_level': {                    
-                                    'Value': {
-                                        'type': {dict,},
-                                        'bounds': (0, None),
-                                    },
-                                    'Unit': {
-                                        'dimension': 'energy'
-                                    },                    
-                                },
-                                'optional': True,
-                                'description': 'Stored electric energy per period.'
-                            },
-                            'Available Power':{
-                                'bottom_level': {                    
-                                    'Value': {
-                                        'type': {dict,}, 
-                                        'bounds': (0, None),
-                                    },
-                                    'Unit': {
-                                        'dimension': 'energy'
-                                    },                    
-                                },     
-                                'optional': False,
-                                'description': 'Available electric energy per period.'
-                            },                                                         
-                        },
-    },
-
-    'power_consumption': {'top_level': 'Power Consumption',
-                         'mid_level' : {
-                            '<...>':{   
-                                'bottom_level': {                    # Assuming all the keys that are not known in advance must follow the same schema
-                                    'Value': {
-                                        'type': {np.ndarray,},
-                                        'bounds': (0, None),
-                                        'length': 3 # expected length of the array (in practice, would be more like 365 for a value per day of the year)
-                                    },
-                                    'Unit': {
-                                        'dimension': 'energy'
-                                    },   
-                                    'Type': {
-                                        'type': {str,},
-                                        'options': {
-                                            'on demand', 'flexible'
-                                        },                                    
-                                    },
-                                },                                     
-                                'optional': True,
-                                'description': 'Power consumption per consumer.'
-                            },                                                        
-                        },
-    },
-    
-     'other_variable_operating_cost': {'top_level': '<...> Other Variable Operating Cost <...>', # table group
-                                        'mid_level' : {
-                                            '<...>':{ 
-                                                'bottom_level': {                    
-                                                    'Value': {
-                                                        'type': {float, np.ndarray},
-                                                        'bounds': (0, None),
-                                                        # length might not be known in advance: check its consistency only if the 'length' key is found in the input
-                                                    },
-                                                    'Unit': {
-                                                        'dimension': 'currency'
-                                                    },   
-                                                },                                     
-                                                'optional': True,
-                                                'description': 'All other variable operating costs.'
-                                            },                                                        
-                                        },
-    }         
-                    
 }
 
+
 # Expected resolved output
-input_dict_resolved = { 'utilities':{ 
+input_dict_resolved = { 'Utilities':{ 
                                 'Natural gas': {
                                     'Usage_Value': ureg.Quantity(5.4E9, 'J/kg'),
                                     'Cost_Value': ureg.Quantity(5.555555E-5, 'USD/J'),
@@ -328,10 +318,15 @@ input_dict_resolved = { 'utilities':{
                                     'Type': 'electricity'
                                 },
                         },
-                        'Water Volume':{
+                        'Water Supply':{
                                 'Volume':{
-                                    'Value': ureg.Quantity(5.E-2, 'meter**3')
+                                    'Value': ureg.Quantity(5.E-2, 'meter**3'), 
+                                    'Type': 'flexible'
                                 },
+                                'Purity':{
+                                    'Value': ureg.Quantity(0.99, 'dimensionless'), 
+                                    'Type': 'contaminants'
+                                },                                
                         },
                         'Number of units': {
                                 'Bag number': {
