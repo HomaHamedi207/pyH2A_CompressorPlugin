@@ -211,7 +211,7 @@ input_dict = {
                                             'bounds': (0, None),
                                         },
                                         'Unit': {
-                                            'dimension': 'money_per_volume'
+                                            'dimension': 'currency / volume'
                                         },                    
                                      },
                                     'optional': False,
@@ -229,7 +229,7 @@ input_dict = {
                                                 'bounds': (0, None),
                                             },
                                             'Unit': {
-                                                'dimension': 'money_per_energy'
+                                                'dimension': 'currency / energy'
                                             },                    
                                         },
                                         'optional': True,
@@ -304,7 +304,7 @@ input_dict = {
                                                         # length might not be known in advance: check its consistency only if the 'length' key is found in the input
                                                     },
                                                     'Unit': {
-                                                        'dimension': 'money'
+                                                        'dimension': 'currency'
                                                     },   
                                                 },                                     
                                                 'optional': True,
