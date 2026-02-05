@@ -1,11 +1,10 @@
-
 import pytest
 import numpy as np
 from pyH2A.Plugins.Multiple_Modules_Plugin import Multiple_Modules_Plugin
 
 
 class DummyDCF:
-    """Minimal DCF object for Multiple_Modules_Plugin unit testing."""
+    """DCF object for Multiple_Modules_Plugin with configurable inputs."""
 
     def __init__(
         self, plant_modules, solar_area_per_module, area_per_staff, shifts, supervisors
@@ -36,16 +35,19 @@ class DummyDCF:
                 "shifts": 3,
                 "supervisors": 1,
             },
-            "expected": 0.6,
+            "expected": {
+                "staff_per_module": 0.6,
+            },
         },
     ],
 )
-
-
 def test_multiple_modules_plugin(case):
     """Check Multiple_Modules_Plugin calculates staff per module correctly."""
+
+    # Unpack inputs from case
     dcf = DummyDCF(**case["input"])
+
+    # Run plugin
     plugin = Multiple_Modules_Plugin(dcf, print_info=False)
 
-    assert plugin.staff_per_module == case["expected"]
-
+    assert plugin.staff_per_module == case["expected"]["staff_per_module"]
