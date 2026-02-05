@@ -16,7 +16,8 @@ class DummyDCF:
             "Technical Operating Parameters and Specifications": {
                 "Design Output per Day": {"Value": design_output_per_day}
             },
-            "Solar-to-Hydrogen Efficiency": {"STH (%)": {"Value": sth_efficiency}},
+            "Solar-to-Hydrogen Efficiency": {
+                "STH (%)": {"Value": sth_efficiency}},
             "Solar Input": {
                 "Mean solar input (kWh/m2/day)": {"Value": mean_solar_input}
             },
