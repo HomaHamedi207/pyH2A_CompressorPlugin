@@ -65,13 +65,21 @@ def test_hourly_irradiation_plugin(case):
     plugin = Hourly_Irradiation_Plugin(dcf, print_info=False)
     data, location = import_hourly_data(case["input"]["hourly_file"])
     expected = case["expected"]
+    
+    # Tolerance (very small)
+    tolerance = 1e-12
 
     assert np.sum(plugin.power_dat_kW) / 365.0 == pytest.approx(
-        expected["mean_power_dat_kW"]
+        expected["mean_power_dat_kW"],
+        abs=tolerance
     )
-    assert np.sum(plugin.power_kW) / 365.0 == pytest.approx(expected["mean_power_kW"])
+    assert np.sum(plugin.power_kW) / 365.0 == pytest.approx(
+        expected["mean_power_kW"],
+        abs=tolerance    
+    )
     assert np.sum(plugin.power_sat_kW) / 365.0 == pytest.approx(
-        expected["mean_power_sat_kW"]
+        expected["mean_power_sat_kW"],
+        abs=tolerance
     )
     assert location["Latitude (decimal degrees)"] == expected["latitude"]
     assert location["Longitude (decimal degrees)"] == expected["longitude"]
