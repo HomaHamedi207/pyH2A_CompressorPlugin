@@ -40,6 +40,7 @@ class DummyDCF:
             },
             "expected": {
                 "area_acres": 10.572124480592073,
+                "area_m2": 42783.93590009135,
             },
         }
     ],
@@ -52,5 +53,7 @@ def test_solar_thermal_plugin(case):
 
     # Run plugin
     plugin = Solar_Thermal_Plugin(dcf, print_info=False)
+    expected = case["expected"]
 
-    assert plugin.area_acres == case["expected"]["area_acres"]
+    assert plugin.area_acres == expected["area_acres"]
+    assert plugin.area_m2 == expected["area_m2"]
