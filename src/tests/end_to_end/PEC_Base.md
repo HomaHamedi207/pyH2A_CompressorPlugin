@@ -5,7 +5,7 @@ Name | Type | Description | Position
 Hourly_Irradiation_Plugin | plugin | Plugin to calculate solar irradiation from typical meteorological year data | 0
 PEC_Plugin | plugin | Plugin to model photoelectrochemical water splitting | 2
 Solar_Concentrator_Plugin | plugin | Plugin to model solar concentration | 2
-Multiple_Modules_Plugin | plugin | Modelling of module plant modules, adjustment of labor requirement | 7
+Multiple_Modules_Plugin | plugin | Modelling of module plant modules, adjustment of labor requirement | 3
 
 # Display Parameters
 
@@ -173,52 +173,4 @@ Process Water | 2.369 | gal/kg H2 | 0.0023749510945008 | $(2016)/gal | 1. | None
 Name | Full Name | Path | Value | Comment
 --- | --- | --- | --- | ---
 unplanned replacement | Total Unplanned Replacement Capital Cost Factor (% of total direct depreciable costs/year) | Depreciable Capital Costs > Inflated > Value | 0.5% | Based on Pinaud 2013.
-
-# Sensitivity_Analysis
-
-Parameter | Name | Type | Values
---- | --- | --- | ---
-Solar-to-Hydrogen Efficiency > STH (%) > Value | STH efficiency | value | 7%; 28%
-PEC Cells > Cell Cost ($/m2) > Value | PEC cell cost (\$/m^{2}) | value | 10,500; 42,000
-PEC Cells > Lifetime (years) > Value | PEC cell lifetime (years) | value | 0.15; 0.7
-Solar Concentrator > Cost ($/m2) > Value | Solar concentrator cost (\$/m^{2}) | value | 50; 200
-Solar Concentrator > Concentration Factor > Value | Solar concentration factor | value | 25; 100
-
-# Methods - Sensitivity_Analysis
-
-Name | Method Name | Arguments
---- | --- | ---
-sensitivity_box_plot | sensitivity_box_plot | {'show': False, 'save': False, 'fig_width': 8, 'label_offset': 0.12, 'lim_extra': 0.25, 'right': 0.97}
-
-# Cost_Contributions_Analysis - Deactivate
-
-# Methods - Cost_Contributions_Analysis
-
-Name | Method Name | Arguments
---- | --- | ---
-cost_breakdown_plot_total | cost_breakdown_plot | {'name': 'Cost_Breakdown_Plot', 'show': False, 'save': False}
-cost_breakdown_plot_capital | cost_breakdown_plot | {'name': 'Cost_Breakdown_Plot_Capital', 'show': False, 'save': False, 'plugin': 'Capital_Cost_Plugin', 'plugin_property': 'direct_contributions'}
-
-# Arguments - MC Analysis - colored_scatter
-
-Name | Value
---- | ---
-show | False
-save | False
-pdf | False
-dpi | 500
-base_string | Base
-title_string | Target cost range: 
-plot_kwargs | {'left': 0.34, 'right': 0.97, 'bottom': 0.13, 'top': 0.92, 'fig_width': 6.5, 'fig_height': 4.0}
-image_kwargs | {'x': -0.47, 'zoom': 0.09, 'y': 0.5, 'path': 'pyH2A.Other~PEC_Clipart.png'}
-
-# Arguments - MC Analysis - distance_cost
-
-Name | Value
---- | ---
-legend_loc | upper right
-log_scale | True
-plot_kwargs | {'show': False, 'save': False, 'dpi': 300, 'left': 0.09, 'right': 0.5, 'bottom': 0.15, 'top': 0.95, 'fig_width': 9, 'fig_height': 3.5}
-table_kwargs | {'ypos': 0.5, 'xpos': 1.05, 'height': 0.5}
-image_kwargs | {'path': 'pyH2A.Other~PEC_Clipart.png', 'x': 1.6, 'zoom': 0.095, 'y': 0.2}
 

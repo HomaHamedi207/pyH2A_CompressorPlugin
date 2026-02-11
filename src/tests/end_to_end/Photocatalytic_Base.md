@@ -3,9 +3,9 @@
 Name | Type | Description | Position
 --- | --- | --- | ---
 Hourly_Irradiation_Plugin | plugin | Plugin to calculate solar irradiation from typical meteorological year data | 0
-Photocatalytic_Plugin | plugin | Computes number of required baggies, cost of baggies and catalyst cost | 1
-Catalyst_Separation_Plugin | plugin | Computes cost of catalyst separation | 1
-Multiple_Modules_Plugin | plugin | Modelling of multiple plant modules, adjustment of labor requirement | 7 
+Photocatalytic_Plugin | plugin | Computes number of required baggies, cost of baggies and catalyst cost | 2
+Catalyst_Separation_Plugin | plugin | Computes cost of catalyst separation | 2
+Multiple_Modules_Plugin | plugin | Modelling of multiple plant modules, adjustment of labor requirement | 3
 
 # Display Parameters
 
@@ -186,83 +186,3 @@ Process Water | 2.637 | gal/kg H2 | 0.0023749510945008 | $(2016)/gal | 1. | None
 Name | Full Name | Path | Value | Comment
 --- | --- | --- | --- | ---
 unplanned replacement | Total Unplanned Replacement Capital Cost Factor (% of total direct depreciable costs/year) | Depreciable Capital Costs > Inflated > Value | 0.5% | Based on Pinaud 2013.
-
-# Sensitivity_Analysis
-
-Parameter | Name | Type | Values
---- | --- | --- | ---
-Solar-to-Hydrogen Efficiency > STH (%) > Value | STH efficiency | value | 1%; 4%
-Catalyst > Cost per kg ($) > Value | Catalyst cost (\$/kg) | value | 1500; 6000
-Catalyst > Lifetime (years) > Value | Catalyst lifetime (years) | value | 0.25; 1
-Catalyst > Concentration (g/L) > Value | Catalyst concentration (g/L) | value | 0.25; 1.0
-Direct Capital Costs - Gas Processing > Compressor ($) > Value | Compressor cost (\$) | value | 250,000; 1,000,000
-
-# Cost_Contributions_Analysis - Deactivate
-
-# Methods - Cost_Contributions_Analysis
-
-Name | Method Name | Arguments
---- | --- | ---
-cost_breakdown_plot_total | cost_breakdown_plot | {'name': 'Cost_Breakdown_Plot', 'show': False, 'save': False}
-cost_breakdown_plot_capital | cost_breakdown_plot | {'name': 'Cost_Breakdown_Plot_Capital', 'show': False, 'save': False, 'plugin': 'Capital_Cost_Plugin', 'plugin_property': 'direct_contributions'}
-
-# Arguments - MC Analysis - colored_scatter
-
-Name | Value
---- | ---
-show | False
-save | False
-pdf | False
-dpi | 500
-base_string | Base
-title_string | Target cost range: 
-plot_kwargs | {'left': 0.31, 'right': 0.94, 'bottom': 0.13, 'top': 0.92, 'fig_width': 6.5, 'fig_height': 4.0}
-image_kwargs | {'x': -0.4, 'zoom': 0.09, 'y': 0.5, 'path': 'pyH2A.Other~Photocatalytic_Clipart.png'}
-
-# Arguments - MC Analysis - distance_cost
-
-Name | Value
---- | ---
-legend_loc | upper right
-log_scale | True
-plot_kwargs | {'show': False, 'save': False, 'dpi': 300, 'left': 0.09, 'right': 0.5, 'bottom': 0.15, 'top': 0.95, 'fig_width': 9, 'fig_height': 3.5}
-table_kwargs | {'ypos': 0.5, 'xpos': 1.05, 'height': 0.5}
-image_kwargs | {'path': 'pyH2A.Other~Photocatalytic_Clipart.png', 'x': 1.6, 'zoom': 0.095, 'y': 0.2}
-
-# Comparative_MC_Analysis - Deactivate
-
-Name | Value | Image
---- | --- | ---
-pec | pyH2A.Example~210511_Future_PEC_Type_4.md | pyH2A.Other~PEC_Clipart.png
-photocatalytic | pyH2A.Example~211109_Future_PEC_Type_1_Figure_Test.md | pyH2A.Other~Photocatalytic_Clipart.png
-pv_e | pyH2A.Example~210613_PV_E.md | pyH2A.Other~PV_E_Clipart.png
-
-# Methods - Comparative_MC_Analysis
-
-Name | Method Name | Arguments
---- | --- | ---
-comparative_distance_histogram | plot_comparative_distance_histogram | {'show': False, 'save': False, 'pdf': True}
-comparative_distance_cost_relationship | plot_comparative_distance_cost_relationship | {'show': False, 'save': False, 'dist_kwargs': {'log_scale': True}}
-comparative_distance_combined | plot_combined_distance | {'show': False, 'save': False, 'left': 0.06, 'fig_width': 13, 'dist_kwargs': {'legend_loc': 'upper right', 'log_scale': True}, 'table_kwargs': {'colWidths': [0.65, 0.25, 0.12, 0.25]}, 'hist_kwargs': {'title_string': 'Target price range:'}}
-
-# Waterfall_Analysis - Deactivate
-
-Parameter | Name | Type | Value | Show Percent
---- | --- | --- | --- | ---
-Solar-to-Hydrogen Efficiency > STH (%) > Value | STH Efficiency | value | 10% | True
-Catalyst > Lifetime (years) > Value | Catalyst Lifetime (years) | value | 5.0
-Catalyst > Concentration (g/L) > Value | Catalyst Concentration (g/L) | value | 1.05e-2
-Catalyst > Cost per kg ($) > Value | Catalyst Cost ($/kg) | value | 304.0
-
-# Methods - Waterfall_Analysis
-
-Name | Method Name | Arguments
---- | --- | ---
-waterfall_chart | plot_waterfall_chart | {'show': False}
-
-# Methods - Sensitivity_Analysis
-
-Name | Method Name | Arguments
---- | --- | ---
-sensitivity_box_plot | sensitivity_box_plot | {'show': False, 'save': False, 'fig_width': 8, 'label_offset': 0.12, 'lim_extra': 0.25}
-

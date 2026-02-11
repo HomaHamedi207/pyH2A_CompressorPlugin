@@ -15,7 +15,6 @@ Ammonium hydroxide | 20000.5 | kg | 83cae1ae-4cd2-3b5e-8c06-4001a3f38ab7
 
 Name | Type | Position
 --- | --- | ---
-Hourly_Irradiation_Plugin | plugin | 0
 Photovoltaic_Plugin | plugin | 0
 Electrolyzer_Plugin | plugin | 0
 Battery_Plugin | plugin | 0
